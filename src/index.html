@@ -36,7 +36,7 @@
 </head>
 <body class="font-sans">
  <!-- Header -->
-<header class="fixed w-full z-50 bg-gradient-to-br from-gray-50 via-white to-green-50">
+ <header class="fixed w-full z-50 bg-gradient-to-br from-gray-50 via-white to-green-50">
     <nav class="container mx-auto px-6 py-4">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-2">
@@ -44,14 +44,14 @@
                 <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Eco Friendly</span>
             </div>
 
-            <!-- Botón menú móvil -->
-            <button class="md:hidden" onclick="toggleMobileMenu()">
+            <!-- Botón menú mobile -->
+            <button class="md:hidden" onclick="toggleMobileMenu()" aria-expanded="false">
                 <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                 </svg>
             </button>
 
-            <!-- Menú desktop -->
+            <!-- Menù desktop -->
             <div class="hidden md:flex items-center space-x-8">
                 <a href="#features" class="text-gray-700 hover:text-green-500 transition duration-300">Caratteristiche</a>
                 <a href="#products" class="text-gray-700 hover:text-green-500 transition duration-300">Prodotti</a>
@@ -60,7 +60,7 @@
             </div>
         </div>
 
-        <!-- Menú móvil -->
+        <!-- Menù mobile -->
         <div id="mobileMenu" class="hidden md:hidden mt-4 bg-white rounded-lg shadow-xl p-4 absolute left-0 right-0 top-full">
             <div class="flex flex-col space-y-4">
                 <a href="#features" class="text-gray-700 hover:text-green-500 transition duration-300 px-4 py-2 hover:bg-gray-50 rounded-lg">Caratteristiche</a>
@@ -71,6 +71,24 @@
         </div>
     </nav>
 </header>
+
+<script>
+    function toggleMobileMenu() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        const toggleButton = document.querySelector('button[onclick="toggleMobileMenu()"]');
+        const isExpanded = mobileMenu.classList.contains('hidden');
+        mobileMenu.classList.toggle('hidden');
+        toggleButton.setAttribute('aria-expanded', isExpanded);
+    }
+
+    // Chiude il menù mobile quando si clicca su un link
+    document.querySelectorAll('#mobileMenu a').forEach(link => {
+        link.addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.add('hidden');
+            document.querySelector('button[onclick="toggleMobileMenu()"]').setAttribute('aria-expanded', 'false');
+        });
+    });
+</script>
 
 <!-- Hero Section -->
 <section class="bg-gradient-to-br from-gray-900 via-gray-800 to-green-900 pt-32 pb-20">
