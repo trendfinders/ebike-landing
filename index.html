@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerBike Pro - Fornitore Premium di eBike all'Ingrosso</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.5/cdn.js" defer></script>
+    
+    <!-- AOS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    
+    <!-- Leaflet per la mappa -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js"></script>
+
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+        .gradient {
+            background: linear-gradient(90deg, #4F46E5 0%, #7C3AED 100%);
+        }
+        .hero-pattern {
+            background-color: #ffffff;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cg fill-rule='evenodd'%3E%3Cg fill='%234F46E5' fill-opacity='0.05'%3E%3Cpath opacity='.5' d='M96 95h4v1h-4v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4h-9v4h-1v-4H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15v-9H0v-1h15V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h9V0h1v15h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9h4v1h-4v9zm-1 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm9-10v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-10 0v-9h-9v9h9zm-9-10h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9zm10 0h9v-9h-9v9z'/%3E%3Cpath d='M6 5V0H5v5H0v1h5v94h1V6h94V5H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        .testimonial-gradient {
+            background: linear-gradient(180deg, rgba(79, 70, 229, 0.1) 0%, rgba(79, 70, 229, 0) 100%);
+        }
+    </style>
+</head>
+<body class="font-sans">
+ <!-- Header -->
+ <header class="fixed w-full z-50 bg-gradient-to-br from-gray-50 via-white to-green-50">
+    <nav class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="text-3xl font-bold bg-gradient-to-r from-green-500 to-yellow-500 bg-clip-text text-transparent">PowerBike Pro</span>
+                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Eco Friendly</span>
+            </div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#features" class="text-gray-700 hover:text-green-500 transition duration-300">Caratteristiche</a>
+                <a href="#products" class="text-gray-700 hover:text-green-500 transition duration-300">Prodotti</a>
+                <a href="#about" class="text-gray-700 hover:text-green-500 transition duration-300">Chi Siamo</a>
+                <a href="#contact" class="bg-gradient-to-r from-green-500 to-yellow-500 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-green-500/20 transition duration-300">Preventivo Gratuito</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- Hero Section -->
+<section class="bg-gradient-to-br from-gray-900 via-gray-800 to-green-900 pt-32 pb-20">
+    <div class="container mx-auto px-6">
+        <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2" data-aos="fade-right">
+                <div class="flex items-center space-x-4 mb-6">
+                    <span class="bg-green-500/20 text-green-400 px-4 py-1 rounded-full text-sm">Produzione Sostenibile</span>
+                    <span class="bg-yellow-500/20 text-yellow-400 px-4 py-1 rounded-full text-sm">Fair Trade</span>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+                    eBike All'ingrosso <span class="bg-gradient-to-r from-green-500 to-yellow-500 bg-clip-text text-transparent">Eco-Sostenibili</span>
+                </h1>
+                <p class="text-xl text-gray-300 mb-8">
+                    Qualità superiore, rispetto per l'ambiente e condizioni di lavoro etiche. La tua scelta responsabile per il futuro della mobilità.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#contact" class="group relative bg-gradient-to-r from-green-500 to-yellow-500 text-white px-8 py-4 rounded-lg font-semibold transition duration-300 hover:shadow-xl hover:shadow-green-500/20">
+                        <div class="absolute inset-0 bg-white/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        Richiedi Listino Prezzi
+                    </a>
+                    <a href="#products" class="border-2 border-green-500 text-green-500 px-8 py-4 rounded-lg font-semibold hover:bg-green-500 hover:text-white transition duration-300">
+                        Scopri i Prodotti
+                    </a>
+                </div>
+            </div>
+            <div class="md:w-1/2 mt-10 md:mt-0 relative" data-aos="fade-left">
+                <div class="absolute inset-0 bg-gradient-to-r from-green-500/20 to-yellow-500/20 rounded-lg filter blur-xl"></div>
+                <img src="./img/header-ebike-all-ingrosso.png" alt="eBike Premium" class="rounded-lg shadow-2xl relative transform hover:scale-105 transition duration-500">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Trust Badges -->
+<section class="bg-gradient-to-br from-gray-50 via-white to-green-50 py-16">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+            <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-8 shadow-2xl hover:transform hover:scale-105 transition-all duration-300 border border-green-500/20" data-aos="fade-up">
+                <div class="text-center">
+                    <div class="text-5xl font-bold bg-gradient-to-r from-green-500 to-yellow-500 bg-clip-text text-transparent mb-3">100%</div>
+                    <div class="text-gray-300 text-lg font-medium">Energia Verde</div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-8 shadow-2xl hover:transform hover:scale-105 transition-all duration-300 border border-green-500/20" data-aos="fade-up" data-aos-delay="100">
+                <div class="text-center">
+                    <div class="text-5xl font-bold bg-gradient-to-r from-green-500 to-yellow-500 bg-clip-text text-transparent mb-3">200+</div>
+                    <div class="text-gray-300 text-lg font-medium">Partner Certificati</div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-8 shadow-2xl hover:transform hover:scale-105 transition-all duration-300 border border-green-500/20" data-aos="fade-up" data-aos-delay="200">
+                <div class="text-center">
+                    <div class="text-5xl font-bold bg-gradient-to-r from-green-500 to-yellow-500 bg-clip-text text-transparent mb-3">0%</div>
+                    <div class="text-gray-300 text-lg font-medium">Impatto Ambientale</div>
+                </div>
+            </div>
+
+            <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-8 shadow-2xl hover:transform hover:scale-105 transition-all duration-300 border border-green-500/20" data-aos="fade-up" data-aos-delay="300">
+                <div class="text-center">
+                    <div class="text-5xl font-bold bg-gradient-to-r from-green-500 to-yellow-500 bg-clip-text text-transparent mb-3">24/7</div>
+                    <div class="text-gray-300 text-lg font-medium">Supporto Etico</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features -->
+<section id="features" class="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-green-900">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-16">Perché Scegliere <span class="bg-gradient-to-r from-green-500 to-yellow-500 bg-clip-text text-transparent">PowerBike Pro</span></h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-xl shadow-2xl border border-green-500/20 hover:border-green-500/40 transition-all duration-300 hover:transform hover:scale-105" data-aos="fade-up">
+                <div class="w-16 h-16 bg-gradient-to-r from-green-500/20 to-yellow-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
+                    <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-4 text-white">Qualità Superiore</h3>
+                <p class="text-gray-400">Componenti eco-sostenibili di prima qualità e assemblaggio professionale garantito dalla nostra fabbrica certificata green.</p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-xl shadow-2xl border border-green-500/20 hover:border-green-500/40 transition-all duration-300 hover:transform hover:scale-105" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-16 h-16 bg-gradient-to-r from-green-500/20 to-yellow-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
+                    <svg class="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-4 text-white">Prezzi Equi</h3>
+                <p class="text-gray-400">Fornitura diretta dalla fabbrica con garanzia di equo compenso per tutti i lavoratori della filiera.</p>
+            </div>
+
+            <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-xl shadow-2xl border border-green-500/20 hover:border-green-500/40 transition-all duration-300 hover:transform hover:scale-105" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-16 h-16 bg-gradient-to-r from-green-500/20 to-yellow-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
+                    <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-4 text-white">Garanzia Totale</h3>
+                <p class="text-gray-400">2 anni di garanzia completa su tutti i prodotti e supporto tecnico dedicato in italiano 24/7.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Products Showcase -->
+<section id="products" class="py-20 bg-gradient-to-br from-white-100 via-gray-800 to-white-900">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-16">I Nostri Modelli <span class="bg-gradient-to-r from-green-500 to-yellow-500 bg-clip-text text-transparent">Best-Seller</span></h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <!-- Product 1 -->
+            <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-2xl overflow-hidden border border-green-500/20 hover:border-green-500/40 transition-all duration-300 hover:transform hover:scale-105" data-aos="fade-up">
+                <div class="relative">
+                    <img src="./img/product-1-ebike.png" alt="Mountain eBike" class="w-full h-64 object-cover">
+                    <div class="absolute top-4 right-4 bg-green-500/90 text-white px-3 py-1 rounded-full text-sm">Eco-friendly</div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 text-white">Mountain eBike Pro X1</h3>
+                    <ul class="text-gray-400 mb-4 space-y-2">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Motore 250W Bafang Eco
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Batteria 48V 13Ah Samsung
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Autonomia fino a 100km
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Cambio Shimano 21 velocità
+                        </li>
+                    </ul>
+                    <button class="w-full bg-gradient-to-r from-green-500 to-yellow-500 text-white py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-green-500/20 transition duration-300">
+                        Richiedi Preventivo
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-2xl overflow-hidden border border-green-500/20 hover:border-green-500/40 transition-all duration-300 hover:transform hover:scale-105" data-aos="fade-up" data-aos-delay="100">
+                <div class="relative">
+                    <img src="./img/product-2-ebike.png" alt="City eBike" class="w-full h-64 object-cover">
+                    <div class="absolute top-4 right-4 bg-yellow-500/90 text-white px-3 py-1 rounded-full text-sm">Premium</div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 text-white">City eBike Comfort C2</h3>
+                    <ul class="text-gray-400 mb-4 space-y-2">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-yellow-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Motore 350W centrale
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-yellow-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Batteria 36V 15Ah LG
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-yellow-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Display LCD intelligente
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-yellow-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Forcella ammortizzata
+                        </li>
+                    </ul>
+                    <button class="w-full bg-gradient-to-r from-green-500 to-yellow-500 text-white py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-green-500/20 transition duration-300">
+                        Richiedi Preventivo
+                    </button>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-2xl overflow-hidden border border-green-500/20 hover:border-green-500/40 transition-all duration-300 hover:transform hover:scale-105" data-aos="fade-up" data-aos-delay="200">
+                <div class="relative">
+                    <img src="./img/product-3-ebike.png" alt="Folding eBike" class="w-full h-64 object-cover">
+                    <div class="absolute top-4 right-4 bg-green-500/90 text-white px-3 py-1 rounded-full text-sm">Ultra-light</div>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 text-white">Folding eBike Light F3</h3>
+                    <ul class="text-gray-400 mb-4 space-y-2">
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Motore 250W compatto
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Batteria rimovibile 36V 10Ah
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Peso totale 18kg
+                        </li>
+                        <li class="flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                            Pieghevole in 10 secondi
+                        </li>
+                    </ul>
+                    <button class="w-full bg-gradient-to-r from-green-500 to-yellow-500 text-white py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-green-500/20 transition duration-300">
+                        Richiedi Preventivo
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Us -->
+<section id="about" class="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-green-900">
+    <div class="container mx-auto px-6">
+        <div class="flex flex-col md:flex-row items-center">
+            <div class="md:w-1/2 mb-10 md:mb-0" data-aos="fade-right">
+                <div class="relative">
+                    <!-- Glow Effect -->
+                    <div class="absolute -inset-4 bg-gradient-to-r from-green-500 to-yellow-500 rounded-xl opacity-30 blur-xl"></div>
+                    
+                    <!-- Video Container with Custom Design -->
+                    <div class="relative aspect-w-16 aspect-h-9 rounded-xl overflow-hidden shadow-2xl">
+                        <!-- Custom Video Overlay -->
+                        <div class="group relative w-full h-full cursor-pointer" id="videoThumbnail">
+                            <!-- Video Thumbnail Image -->
+                            <img src="./img/ebike manufacture.jpg" alt="Video Thumbnail" class="w-full h-full object-cover rounded-xl">
+                            
+                            <!-- Gradient Overlay -->
+                            <div class="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900/80 group-hover:opacity-75 transition-all duration-300"></div>
+                            
+                            <!-- Play Button Container -->
+                            <div class="absolute inset-0 flex flex-col items-center justify-center transform group-hover:scale-105 transition-all duration-300">
+                                <!-- Custom Play Button -->
+                                <div class="relative">
+                                    <!-- Outer Glow -->
+                                    <div class="absolute -inset-4 bg-gradient-to-r from-green-500 to-yellow-500 opacity-75 blur-xl rounded-full group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    
+                                    <!-- Button Background -->
+                                    <div class="relative bg-gradient-to-r from-green-500 to-yellow-500 p-6 rounded-full shadow-lg group-hover:shadow-green-500/50">
+                                        <svg class="w-12 h-12 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                
+                                <!-- Video Title -->
+                                <h3 class="text-white text-xl font-bold mt-4 text-center px-6">
+                                    Scopri come realizziamo le nostre eBike sostenibili
+                                </h3>
+                                
+                                <!-- Video Duration -->
+                                <p class="text-gray-300 mt-2 font-medium">
+                                    <span class="bg-black/50 px-3 py-1 rounded-full text-sm">
+                                        03:45
+                                    </span>
+                                </p>
+                            </div>
+
+                            <!-- Custom Video Container -->
+                            <div id="videoContainer" class="hidden absolute inset-0 bg-gray-900">
+                                <!-- Video Player -->
+                                <div class="relative w-full h-full">
+                                    <iframe 
+                                        id="youtubeVideo"
+                                        class="w-full h-full rounded-xl"
+                                        src="" 
+                                        title="PowerBike Pro - La nostra produzione sostenibile"
+                                        frameborder="0" 
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                        allowfullscreen>
+                                    </iframe>
+                                    
+                                    <!-- Close Button -->
+                                    <button id="closeVideo" class="absolute top-4 right-4 bg-black/50 hover:bg-black text-white p-2 rounded-full transition-all duration-300">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Video Features -->
+                    <div class="grid grid-cols-2 gap-4 mt-4">
+                        <div class="bg-gray-800/50 rounded-lg p-3 flex items-center border border-green-500/20">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                            </svg>
+                            <span class="text-gray-300 text-sm">Produzione Eco</span>
+                        </div>
+                        <div class="bg-gray-800/50 rounded-lg p-3 flex items-center border border-yellow-500/20">
+                            <svg class="w-5 h-5 text-yellow-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
+                            </svg>
+                            <span class="text-gray-300 text-sm">Qualità Premium</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="md:w-1/2 md:pl-12" data-aos="fade-left">
+                <div class="inline-block mb-6">
+                    <span class="bg-green-500/10 text-green-500 px-4 py-2 rounded-full text-sm font-semibold">Dal 2010</span>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">Chi Siamo</h2>
+                <p class="text-gray-300 mb-8">
+                    PowerBike Pro è leader nella produzione e distribuzione di eBike eco-sostenibili. La nostra fabbrica in Cina unisce tecnologia all'avanguardia, sostenibilità e rispetto per i lavoratori per creare prodotti eccezionali e etici.
+                </p>
+                <ul class="space-y-4">
+                    <li class="flex items-center bg-gray-800/50 p-4 rounded-lg border border-green-500/20">
+                        <div class="w-12 h-12 bg-green-500/10 rounded-full flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                            </svg>
+                        </div>
+                        <span class="text-gray-300">Certificazioni ISO 9001:2015 & Green Production</span>
+                    </li>
+                    <li class="flex items-center bg-gray-800/50 p-4 rounded-lg border border-green-500/20">
+                        <div class="w-12 h-12 bg-yellow-500/10 rounded-full flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <span class="text-gray-300">Test qualità e sostenibilità su ogni prodotto</span>
+                    </li>
+                    <li class="flex items-center bg-gray-800/50 p-4 rounded-lg border border-green-500/20">
+                        <div class="w-12 h-12 bg-green-500/10 rounded-full flex items-center justify-center mr-4">
+                            <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <span class="text-gray-300">Supporto post-vendita dedicato 24/7</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Enhanced Video Control Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const videoThumbnail = document.getElementById('videoThumbnail');
+    const videoContainer = document.getElementById('videoContainer');
+    const youtubeVideo = document.getElementById('youtubeVideo');
+    const closeVideo = document.getElementById('closeVideo');
+
+    // Video Play Handler
+    videoThumbnail.addEventListener('click', function() {
+        // Sostituisci VIDEO_ID con l'ID del tuo video YouTube
+        youtubeVideo.src = 'https://www.youtube.com/embed/m5YOCaNWADc?si=1DIzSFfeSLhMiaF9&autoplay=0&rel=0&showinfo=0&modestbranding=1';
+        videoContainer.classList.remove('hidden');
+        // Aggiungi animazione fade-in
+        videoContainer.classList.add('animate-fade-in');
+    });
+
+    // Close Video Handler
+    closeVideo.addEventListener('click', function() {
+        youtubeVideo.src = '';
+        videoContainer.classList.add('hidden');
+        videoContainer.classList.remove('animate-fade-in');
+    });
+});
+
+// Aggiungi questo alla sezione degli stili
+document.head.insertAdjacentHTML('beforeend', `
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+    </style>
+`);
+</script>
+
+<!-- Testimonials -->
+<section class="py-20 bg-[#f6f6f6]">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4">Cosa Dicono i Nostri Clienti</h2>
+        <p class="text-center text-gray-400 mb-16 max-w-2xl mx-auto">Le esperienze di chi ha scelto la nostra qualità sostenibile</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Testimonial 1 -->
+            <div class="bg-gradient-to-br from-[#252A35] to-[#1E222B] p-8 rounded-xl shadow-2xl border border-[#7FB085]/10 hover:border-[#7FB085]/30 transition-all duration-300" data-aos="fade-up">
+                <div class="flex items-center mb-6">
+                    <div class="w-16 h-16 relative">
+                        <div class="absolute inset-0 bg-[#7FB085]/20 rounded-full blur-md"></div>
+                        <img src="./img/avatar-1.png" 
+                             alt="Cliente" 
+                             class="w-16 h-16 rounded-full relative z-10 object-cover border-2 border-[#7FB085]/50">
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="font-semibold text-white">Marco Rossi</h4>
+                        <p class="text-[#7FB085]">BikeStore Milano</p>
+                    </div>
+                </div>
+                <p class="text-gray-300">
+                    "Qualità eccezionale e prezzi competitivi. Il supporto post-vendita è sempre presente e professionale."
+                </p>
+            </div>
+
+            <!-- Testimonial 2 -->
+            <div class="bg-gradient-to-br from-[#252A35] to-[#1E222B] p-8 rounded-xl shadow-2xl border border-[#7FB085]/10 hover:border-[#7FB085]/30 transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+                <div class="flex items-center mb-6">
+                    <div class="w-16 h-16 relative">
+                        <div class="absolute inset-0 bg-[#7FB085]/20 rounded-full blur-md"></div>
+                        <img src="./img/avatar-2.png" 
+                             alt="Cliente" 
+                             class="w-16 h-16 rounded-full relative z-10 object-cover border-2 border-[#7FB085]/50">
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="font-semibold text-white">Laura Bianchi</h4>
+                        <p class="text-[#7FB085]">Cicli Express Roma</p>
+                    </div>
+                </div>
+                <p class="text-gray-300">
+                    "Collaboriamo da 3 anni e non abbiamo mai avuto problemi. Consegne puntuali e prodotti sempre perfetti."
+                </p>
+            </div>
+
+            <!-- Testimonial 3 -->
+            <div class="bg-gradient-to-br from-[#252A35] to-[#1E222B] p-8 rounded-xl shadow-2xl border border-[#7FB085]/10 hover:border-[#7FB085]/30 transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+                <div class="flex items-center mb-6">
+                    <div class="w-16 h-16 relative">
+                        <div class="absolute inset-0 bg-[#7FB085]/20 rounded-full blur-md"></div>
+                        <img src="./img/avatar-3.png" 
+                             alt="Cliente" 
+                             class="w-16 h-16 rounded-full relative z-10 object-cover border-2 border-[#7FB085]/50">
+                    </div>
+                    <div class="ml-4">
+                        <h4 class="font-semibold text-white">Giuseppe Verdi</h4>
+                        <p class="text-[#7FB085]">Bike World Torino</p>
+                    </div>
+                </div>
+                <p class="text-gray-300">
+                    "I nostri clienti adorano questi prodotti. Il rapporto qualità-prezzo è imbattibile sul mercato."
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Store Locator Section -->
+<section class="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-green-900" id="store-locator">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-4">Trova il Rivenditore</h2>
+        <p class="text-center text-gray-400 mb-16 max-w-2xl mx-auto">La nostra rete di partner certificati è pronta ad aiutarti nella scelta della tua eBike eco-sostenibile</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Mappa -->
+            <div class="md:col-span-2">
+                <div id="map" class="w-full h-[500px] rounded-xl shadow-2xl border border-green-500/20"></div>
+            </div>
+            
+            <!-- Lista Rivenditori -->
+            <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl shadow-2xl border border-green-500/20">
+                <h3 class="text-xl font-semibold mb-4 text-white flex items-center">
+                    <svg class="w-6 h-6 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    Partner Certificati
+                </h3>
+                <div class="space-y-4 max-h-[400px] overflow-y-auto pr-4 text-white" id="dealers-list">
+                    <!-- Altri dealer items verranno popolati via JavaScript -->
+                </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form -->
+<section id="contact" class="py-20 bg-gradient-to-br from-white-800 to-white-900">
+    <div class="container mx-auto px-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-4">Inizia la Collaborazione</h2>
+        <p class="text-center text-gray-400 mb-16 max-w-2xl mx-auto">Unisciti alla rivoluzione green della mobilità elettrica</p>
+        
+        <div class="max-w-2xl mx-auto">
+            <div class="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-xl shadow-2xl border border-green-500/20">
+                <form class="space-y-6" id="contactForm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-300 mb-2">Nome</label>
+                            <input type="text" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-300 mb-2">Cognome</label>
+                            <input type="text" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white" required>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-300 mb-2">Email</label>
+                        <input type="email" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-300 mb-2">Azienda</label>
+                        <input type="text" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white" required>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-gray-300 mb-2">Messaggio</label>
+                        <textarea class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent text-white" rows="4" required></textarea>
+                    </div>
+                    
+                    <div class="flex justify-center">
+                        <button type="submit" class="bg-gradient-to-r from-green-500 to-yellow-500 text-white px-8 py-4 rounded-lg font-semibold hover:shadow-lg hover:shadow-green-500/20 transition duration-300 w-full md:w-auto">
+                            Invia Richiesta
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white py-16 border-t border-green-500/20">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div>
+                <h3 class="text-2xl font-bold mb-4 bg-gradient-to-r from-green-500 to-yellow-500 bg-clip-text text-transparent">PowerBike Pro</h3>
+                <p class="text-gray-400">
+                    Leader nella produzione e distribuzione di eBike eco-sostenibili per il mercato italiano.
+                </p>
+                <div class="mt-4 flex space-x-4">
+                    <span class="bg-green-500/10 text-green-400 px-3 py-1 rounded-full text-sm">Carbon Neutral</span>
+                    <span class="bg-yellow-500/10 text-yellow-400 px-3 py-1 rounded-full text-sm">Fair Trade</span>
+                </div>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold mb-4 text-white">Contatti</h4>
+                <ul class="text-gray-400 space-y-3">
+                    <li class="flex items-center">
+                        <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        </svg>
+                        info@powerbikepro.it
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                        </svg>
+                        +39 02 1234567
+                    </li>
+                    <li class="flex items-center">
+                        <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/>
+                        </svg>
+                        WhatsApp: +39 333 1234567
+                    </li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold mb-4 text-white">Link Utili</h4>
+                <ul class="text-gray-400 space-y-3">
+                    <li>
+                        <a href="#" class="hover:text-green-500 transition duration-300 flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            Catalogo Prodotti
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="hover:text-green-500 transition duration-300 flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            Assistenza Tecnica
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="hover:text-green-500 transition duration-300 flex items-center">
+                            <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                            Area Rivenditori
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div>
+                <h4 class="font-semibold mb-4 text-white">Certificazioni</h4>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-gray-800 p-4 rounded-lg border border-green-500/20">
+                        <img src="./img/iso.png" alt="ISO" class="mb-2">
+                        <p class="text-gray-400 text-sm">ISO 9001:2015</p>
+                    </div>
+                    <div class="bg-gray-800 p-4 rounded-lg border border-green-500/20">
+                        <img src="./img/green-cer.png" alt="Green" class="mb-2">
+                        <p class="text-gray-400 text-sm">Green Certified</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="border-t border-green-500/10 mt-12 pt-8 text-center text-gray-400">
+            <p>&copy; 2024 PowerBike Pro. Tutti i diritti riservati. | <span class="text-green-500">100% Carbon Neutral</span></p>
+        </div>
+    </div>
+</footer>
+
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Add your form submission logic here
+            alert('Grazie per la tua richiesta! Ti contatteremo presto.');
+            this.reset();
+        });
+
+        // Mobile menu toggle (you can expand this)
+        function toggleMobileMenu() {
+            // Add your mobile menu logic here
+        }
+    </script>
+    <!-- Aggiungi questo script prima della chiusura del </body> -->
+<script>
+    // Dati dei rivenditori (esempio)
+    const dealers = [
+        {
+            name: "BikeStore Milano",
+            address: "Via Milano 123, Milano",
+            phone: "+39 02 1234567",
+            coords: [45.4642, 9.1900]
+        },
+        {
+            name: "Cicli Express Roma",
+            address: "Via Roma 456, Roma",
+            phone: "+39 06 7654321",
+            coords: [41.9028, 12.4964]
+        },
+        {
+            name: "Bike World Torino",
+            address: "Corso Torino 789, Torino",
+            phone: "+39 011 9876543",
+            coords: [45.0703, 7.6869]
+        },
+        // Puoi aggiungere altri rivenditori qui
+    ];
+
+    // Inizializza la mappa
+    const map = L.map('map').setView([41.9028, 12.4964], 6); // Centro Italia
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Popola la lista dei rivenditori e aggiungi i marker
+    const dealersList = document.getElementById('dealers-list');
+    
+    dealers.forEach(dealer => {
+        // Aggiungi marker alla mappa
+        const marker = L.marker(dealer.coords)
+            .addTo(map)
+            .bindPopup(`
+                <strong>${dealer.name}</strong><br>
+                ${dealer.address}<br>
+                Tel: ${dealer.phone}
+            `);
+
+        // Crea elemento nella lista
+        const dealerElement = document.createElement('div');
+        dealerElement.className = 'p-4 border rounded-lg hover:bg-gray-50 cursor-pointer transition';
+        dealerElement.innerHTML = `
+            <h4 class="font-semibold">${dealer.name}</h4>
+            <p class="text-gray-600 text-sm">${dealer.address}</p>
+            <p class="text-gray-600 text-sm">${dealer.phone}</p>
+        `;
+
+        // Aggiungi evento click per centrare la mappa
+        dealerElement.addEventListener('click', () => {
+            map.setView(dealer.coords, 15);
+            marker.openPopup();
+        });
+
+        dealersList.appendChild(dealerElement);
+    });
+
+    // Funzione per aggiungere nuovi rivenditori
+    function addDealer(name, address, phone, lat, lng) {
+        const newDealer = {
+            name: name,
+            address: address,
+            phone: phone,
+            coords: [lat, lng]
+        };
+        
+        dealers.push(newDealer);
+        
+        // Aggiorna mappa e lista
+        const marker = L.marker(newDealer.coords)
+            .addTo(map)
+            .bindPopup(`
+                <strong>${newDealer.name}</strong><br>
+                ${newDealer.address}<br>
+                Tel: ${newDealer.phone}
+            `);
+
+        const dealerElement = document.createElement('div');
+        dealerElement.className = 'p-4 border rounded-lg hover:bg-gray-50 cursor-pointer transition';
+        dealerElement.innerHTML = `
+            <h4 class="font-semibold">${newDealer.name}</h4>
+            <p class="text-gray-600 text-sm">${newDealer.address}</p>
+            <p class="text-gray-600 text-sm">${newDealer.phone}</p>
+        `;
+
+        dealerElement.addEventListener('click', () => {
+            map.setView(newDealer.coords, 15);
+            marker.openPopup();
+        });
+
+        dealersList.appendChild(dealerElement);
+    }
+</script>
+</body>
+</html>

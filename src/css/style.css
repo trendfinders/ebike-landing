@@ -1,0 +1,8 @@
+.gradient-custom {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+.number-gradient {
+    background: linear-gradient(45deg, #fbbf24 0%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
