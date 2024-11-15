@@ -19,7 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.min.js"></script>
 
     <!-- Style CSS -->
-    <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/src/css/style.css" />
     <style>
         .gradient {
             background: linear-gradient(90deg, #4F46E5 0%, #7C3AED 100%);
@@ -35,18 +35,37 @@
 </head>
 <body class="font-sans">
  <!-- Header -->
- <header class="fixed w-full z-50 bg-gradient-to-br from-gray-50 via-white to-green-50">
+<header class="fixed w-full z-50 bg-gradient-to-br from-gray-50 via-white to-green-50">
     <nav class="container mx-auto px-6 py-4">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-2">
-                <span class="text-3xl font-bold bg-gradient-to-r from-green-500 to-yellow-500 bg-clip-text text-transparent">PowerBike Pro</span>
+                <span class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-500 to-yellow-500 bg-clip-text text-transparent">PowerBike Pro</span>
                 <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Eco Friendly</span>
             </div>
+
+            <!-- Botón menú móvil -->
+            <button class="md:hidden" onclick="toggleMobileMenu()">
+                <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
+            </button>
+
+            <!-- Menú desktop -->
             <div class="hidden md:flex items-center space-x-8">
                 <a href="#features" class="text-gray-700 hover:text-green-500 transition duration-300">Caratteristiche</a>
                 <a href="#products" class="text-gray-700 hover:text-green-500 transition duration-300">Prodotti</a>
                 <a href="#about" class="text-gray-700 hover:text-green-500 transition duration-300">Chi Siamo</a>
                 <a href="#contact" class="bg-gradient-to-r from-green-500 to-yellow-500 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-green-500/20 transition duration-300">Preventivo Gratuito</a>
+            </div>
+        </div>
+
+        <!-- Menú móvil -->
+        <div id="mobileMenu" class="hidden md:hidden mt-4 bg-white rounded-lg shadow-xl p-4 absolute left-0 right-0 top-full">
+            <div class="flex flex-col space-y-4">
+                <a href="#features" class="text-gray-700 hover:text-green-500 transition duration-300 px-4 py-2 hover:bg-gray-50 rounded-lg">Caratteristiche</a>
+                <a href="#products" class="text-gray-700 hover:text-green-500 transition duration-300 px-4 py-2 hover:bg-gray-50 rounded-lg">Prodotti</a>
+                <a href="#about" class="text-gray-700 hover:text-green-500 transition duration-300 px-4 py-2 hover:bg-gray-50 rounded-lg">Chi Siamo</a>
+                <a href="#contact" class="bg-gradient-to-r from-green-500 to-yellow-500 text-white px-4 py-2 rounded-lg font-semibold text-center">Preventivo Gratuito</a>
             </div>
         </div>
     </nav>
@@ -67,12 +86,12 @@
                 <p class="text-xl text-gray-300 mb-8">
                     Qualità superiore, rispetto per l'ambiente e condizioni di lavoro etiche. La tua scelta responsabile per il futuro della mobilità.
                 </p>
-                <div class="flex space-x-4">
-                    <a href="#contact" class="group relative bg-gradient-to-r from-green-500 to-yellow-500 text-white px-8 py-4 rounded-lg font-semibold transition duration-300 hover:shadow-xl hover:shadow-green-500/20">
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <a href="#contact" class="group relative bg-gradient-to-r from-green-500 to-yellow-500 text-white px-8 py-4 rounded-lg font-semibold transition duration-300 hover:shadow-xl hover:shadow-green-500/20 text-center">
                         <div class="absolute inset-0 bg-white/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         Richiedi Listino Prezzi
                     </a>
-                    <a href="#products" class="border-2 border-green-500 text-green-500 px-8 py-4 rounded-lg font-semibold hover:bg-green-500 hover:text-white transition duration-300">
+                    <a href="#products" class="border-2 border-green-500 text-green-500 px-8 py-4 rounded-lg font-semibold hover:bg-green-500 hover:text-white transition duration-300 text-center">
                         Scopri i Prodotti
                     </a>
                 </div>
@@ -812,6 +831,25 @@ document.head.insertAdjacentHTML('beforeend', `
 
         dealersList.appendChild(dealerElement);
     }
+
+    function toggleMobileMenu() {
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.remove('hidden');
+        // Agregamos una animación suave
+        mobileMenu.classList.add('animate-fade-in');
+    } else {
+        mobileMenu.classList.add('hidden');
+        mobileMenu.classList.remove('animate-fade-in');
+    }
+}
+
+// Cerrar el menú móvil cuando se hace click en un enlace
+document.querySelectorAll('#mobileMenu a').forEach(link => {
+    link.addEventListener('click', () => {
+        document.getElementById('mobileMenu').classList.add('hidden');
+    });
+});
 </script>
 </body>
 </html>
