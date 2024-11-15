@@ -39,6 +39,26 @@
         .animate-fade-in {
             animation: fadeIn 0.3s ease-in-out;
         }
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+                padding: 0 1rem;
+            }
+            
+            .hero-text {
+                padding: 1rem;
+                text-align: center;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .feature-card {
+                margin-bottom: 1rem;
+            }
+        }
     </style>
 </head>
 <body class="font-sans overflow-x-hidden">
@@ -99,9 +119,9 @@
 
 <!-- Hero Section -->
 <section class="bg-gradient-to-br from-gray-900 via-gray-800 to-green-900 pt-32 pb-20">
-    <div class="container mx-auto px-6">
+    <div class="container max-w-full mx-auto px-6">
         <div class="flex flex-col md:flex-row items-center">
-            <div class="md:w-1/2" data-aos="fade-right">
+            <div class="md:w-1/2 w-full" data-aos="fade-right">
                 <div class="flex items-center space-x-4 mb-6">
                     <span class="bg-green-500/20 text-green-400 px-4 py-1 rounded-full text-sm">Produzione Sostenibile</span>
                     <span class="bg-yellow-500/20 text-yellow-400 px-4 py-1 rounded-full text-sm">Fair Trade</span>
@@ -112,7 +132,7 @@
                 <p class="text-xl text-gray-300 mb-8">
                     Qualità superiore, rispetto per l'ambiente e condizioni di lavoro etiche. La tua scelta responsabile per il futuro della mobilità.
                 </p>
-                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full">
                     <a href="#contact" class="group relative bg-gradient-to-r from-green-500 to-yellow-500 text-white px-8 py-4 rounded-lg font-semibold transition duration-300 hover:shadow-xl hover:shadow-green-500/20 text-center">
                         <div class="absolute inset-0 bg-white/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         Richiedi Listino Prezzi
@@ -122,9 +142,9 @@
                     </a>
                 </div>
             </div>
-            <div class="md:w-1/2 mt-10 md:mt-0 relative" data-aos="fade-left">
+            <div class="md:w-1/2 w-full mt-10 md:mt-0 relative" data-aos="fade-left">
                 <div class="absolute inset-0 bg-gradient-to-r from-green-500/20 to-yellow-500/20 rounded-lg filter blur-xl"></div>
-                <img src="./img/header-ebike-all-ingrosso.png" alt="eBike Premium" class="rounded-lg shadow-2xl relative transform hover:scale-105 transition duration-500">
+                <img src="./img/header-ebike-all-ingrosso.png" alt="eBike Premium" class="rounded-lg shadow-2xl relative transform hover:scale-105 transition duration-500 w-full">
             </div>
         </div>
     </div>
@@ -133,7 +153,7 @@
 <!-- Trust Badges -->
 <section class="bg-gradient-to-br from-gray-50 via-white to-green-50 py-16">
     <div class="container mx-auto px-6">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 items-center">
             <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-8 shadow-2xl hover:transform hover:scale-105 transition-all duration-300 border border-green-500/20" data-aos="fade-up">
                 <div class="text-center">
                     <div class="text-5xl font-bold bg-gradient-to-r from-green-500 to-yellow-500 bg-clip-text text-transparent mb-3">100%</div>
@@ -164,39 +184,38 @@
         </div>
     </div>
 </section>
-
 <!-- Features -->
 <section id="features" class="py-20 bg-gradient-to-br from-gray-900 via-gray-800 to-green-900">
     <div class="container mx-auto px-6">
         <h2 class="text-3xl md:text-4xl font-bold text-center text-white mb-16">Perché Scegliere <span class="bg-gradient-to-r from-green-500 to-yellow-500 bg-clip-text text-transparent">PowerBike Pro</span></h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-            <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-xl shadow-2xl border border-green-500/20 hover:border-green-500/40 transition-all duration-300 hover:transform hover:scale-105" data-aos="fade-up">
-                <div class="w-16 h-16 bg-gradient-to-r from-green-500/20 to-yellow-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
-                    <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+            <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-6 lg:p-8 rounded-xl shadow-2xl border border-green-500/20 hover:border-green-500/40 transition-all duration-300 transform hover:scale-105" data-aos="fade-up">
+                <div class="w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-r from-green-500/20 to-yellow-500/20 rounded-full flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition duration-300">
+                    <svg class="w-6 h-6 lg:w-8 lg:h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold mb-4 text-white">Qualità Superiore</h3>
+                <h3 class="text-lg lg:text-xl font-semibold mb-3 lg:mb-4 text-white">Qualità Superiore</h3>
                 <p class="text-gray-400">Componenti eco-sostenibili di prima qualità e assemblaggio professionale garantito dalla nostra fabbrica certificata green.</p>
             </div>
             
-            <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-xl shadow-2xl border border-green-500/20 hover:border-green-500/40 transition-all duration-300 hover:transform hover:scale-105" data-aos="fade-up" data-aos-delay="100">
-                <div class="w-16 h-16 bg-gradient-to-r from-green-500/20 to-yellow-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
-                    <svg class="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-6 lg:p-8 rounded-xl shadow-2xl border border-green-500/20 hover:border-green-500/40 transition-all duration-300 transform hover:scale-105" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-r from-green-500/20 to-yellow-500/20 rounded-full flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition duration-300">
+                    <svg class="w-6 h-6 lg:w-8 lg:h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold mb-4 text-white">Prezzi Equi</h3>
+                <h3 class="text-lg lg:text-xl font-semibold mb-3 lg:mb-4 text-white">Prezzi Equi</h3>
                 <p class="text-gray-400">Fornitura diretta dalla fabbrica con garanzia di equo compenso per tutti i lavoratori della filiera.</p>
             </div>
 
-            <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-8 rounded-xl shadow-2xl border border-green-500/20 hover:border-green-500/40 transition-all duration-300 hover:transform hover:scale-105" data-aos="fade-up" data-aos-delay="200">
-                <div class="w-16 h-16 bg-gradient-to-r from-green-500/20 to-yellow-500/20 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition duration-300">
-                    <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-6 lg:p-8 rounded-xl shadow-2xl border border-green-500/20 hover:border-green-500/40 transition-all duration-300 transform hover:scale-105" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-r from-green-500/20 to-yellow-500/20 rounded-full flex items-center justify-center mb-4 lg:mb-6 group-hover:scale-110 transition duration-300">
+                    <svg class="w-6 h-6 lg:w-8 lg:h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                     </svg>
                 </div>
-                <h3 class="text-xl font-semibold mb-4 text-white">Garanzia Totale</h3>
+                <h3 class="text-lg lg:text-xl font-semibold mb-3 lg:mb-4 text-white">Garanzia Totale</h3>
                 <p class="text-gray-400">2 anni di garanzia completa su tutti i prodotti e supporto tecnico dedicato in italiano 24/7.</p>
             </div>
         </div>
