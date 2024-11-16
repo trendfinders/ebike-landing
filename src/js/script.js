@@ -1,180 +1,246 @@
-       // Initialize AOS
-       AOS.init({
-        duration: 1000,
-        once: true
+// Attendi che il DOM sia completamente caricato
+document.addEventListener('DOMContentLoaded', function() {
+    // Inizializzazione delle variabili globali
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
+    const navbar = document.querySelector('.sticky-nav');
+    let lastScroll = 0;
+
+    // ===== Gestione Menu Mobile =====
+    mobileMenuToggle.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        mobileMenuToggle.querySelector('i').classList.toggle('fa-bars');
+        mobileMenuToggle.querySelector('i').classList.toggle('fa-times');
     });
 
-    // Smooth scroll for anchor links
+    // ===== Navigazione Sticky con Hide/Show su Scroll =====
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        
+        if (currentScroll <= 0) {
+            navbar.classList.remove('scroll-up');
+            return;
+        }
+        
+        if (currentScroll > lastScroll && !navbar.classList.contains('scroll-down')) {
+            // Scroll Down -> Nascondi Nav
+            navbar.classList.remove('scroll-up');
+            navbar.classList.add('scroll-down');
+        } else if (currentScroll < lastScroll && navbar.classList.contains('scroll-down')) {
+            // Scroll Up -> Mostra Nav
+            navbar.classList.remove('scroll-down');
+            navbar.classList.add('scroll-up');
+        }
+        lastScroll = currentScroll;
+    });
+
+    // ===== Smooth Scroll per Link Interni =====
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
+        anchor.addEventListener('click', function(e) {
             e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // Chiudi il menu mobile se aperto
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    mobileMenuToggle.querySelector('i').classList.toggle('fa-bars');
+                    mobileMenuToggle.querySelector('i').classList.toggle('fa-times');
+                }
+            }
         });
     });
 
-    // Form submission
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        // Add your form submission logic here
-        alert('Grazie per la tua richiesta! Ti contatteremo presto.');
-        this.reset();
-    });
+    // ===== Animazioni allo Scroll =====
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
 
-    // Mobile menu toggle (you can expand this)
-    function toggleMobileMenu() {
-        // Add your mobile menu logic here
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.trust-badge, .product-card, .about-content, .dealers-search')
+        .forEach(el => observer.observe(el));
+
+    // ===== Inizializzazione e Gestione Google Maps =====
+    let map;
+    let markers = [];
+    const dealers = [
+        { lat: 45.4642, lng: 9.1900, name: "E-Bike Store Milano", address: "Via Milano, 123" },
+        { lat: 41.9028, lng: 12.4964, name: "E-Bike Roma Centro", address: "Via Roma, 456" },
+        { lat: 45.0703, lng: 7.6869, name: "E-Bike Torino", address: "Via Torino, 789" }
+        // Aggiungi altri negozi qui
+    ];
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 41.9028, lng: 12.4964 },
+            zoom: 6,
+            styles: [
+                {
+                    "featureType": "all",
+                    "elementType": "geometry",
+                    "stylers": [{"visibility": "simplified"}]
+                }
+                // Aggiungi altri stili personalizzati qui
+            ]
+        });
+
+        // Aggiungi i marker per ogni negozio
+        dealers.forEach(dealer => {
+            const marker = new google.maps.Marker({
+                position: { lat: dealer.lat, lng: dealer.lng },
+                map: map,
+                title: dealer.name,
+                animation: google.maps.Animation.DROP
+            });
+
+            const infoWindow = new google.maps.InfoWindow({
+                content: `
+                    <div class="info-window">
+                        <h3>${dealer.name}</h3>
+                        <p>${dealer.address}</p>
+                        <a href="#contatti" class="map-contact-btn">Contatta</a>
+                    </div>
+                `
+            });
+
+            marker.addListener('click', () => {
+                infoWindow.open(map, marker);
+            });
+
+            markers.push(marker);
+        });
     }
 
-     // Dati dei rivenditori (esempio)
-const dealers = [
-    {
-        name: "BikeStore Milano",
-        address: "Via Milano 123, Milano",
-        phone: "+39 02 1234567",
-        coords: [45.4642, 9.1900]
-    },
-    {
-        name: "Cicli Express Roma",
-        address: "Via Roma 456, Roma",
-        phone: "+39 06 7654321",
-        coords: [41.9028, 12.4964]
-    },
-    {
-        name: "Bike World Torino",
-        address: "Corso Torino 789, Torino",
-        phone: "+39 011 9876543",
-        coords: [45.0703, 7.6869]
-    },
-    // Puoi aggiungere altri rivenditori qui
-];
+    // Inizializza la mappa se l'elemento esiste
+    if (document.getElementById('map')) {
+        initMap();
+    }
 
-// Inizializza la mappa
-const map = L.map('map').setView([41.9028, 12.4964], 6); // Centro Italia
+    // ===== Gestione Form di Contatto =====
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Validazione base
+            const formData = new FormData(this);
+            const formEntries = Object.fromEntries(formData);
+            
+            if (!validateForm(formEntries)) {
+                showNotification('Compila tutti i campi correttamente', 'error');
+                return;
+            }
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-}).addTo(map);
+            try {
+                // Simula l'invio del form
+                await submitForm(formEntries);
+                showNotification('Messaggio inviato con successo!', 'success');
+                this.reset();
+            } catch (error) {
+                showNotification('Errore durante l\'invio. Riprova più tardi.', 'error');
+            }
+        });
+    }
 
-// Popola la lista dei rivenditori e aggiungi i marker
-const dealersList = document.getElementById('dealers-list');
+    // ===== Funzioni di Utilità =====
+    function validateForm(data) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const phoneRegex = /^[\d\s+()-]{8,}$/;
 
-dealers.forEach(dealer => {
-    // Aggiungi marker alla mappa
-    const marker = L.marker(dealer.coords)
-        .addTo(map)
-        .bindPopup(`
-            <strong>${dealer.name}</strong><br>
-            ${dealer.address}<br>
-            Tel: ${dealer.phone}
-        `);
+        return data.name.length > 2 &&
+               emailRegex.test(data.email) &&
+               phoneRegex.test(data.phone) &&
+               data.message.length > 10;
+    }
 
-    // Crea elemento nella lista
-    const dealerElement = document.createElement('div');
-    dealerElement.className = 'p-4 border rounded-lg hover:bg-gray-50 cursor-pointer transition';
-    dealerElement.innerHTML = `
-        <h4 class="font-semibold">${dealer.name}</h4>
-        <p class="text-gray-600 text-sm">${dealer.address}</p>
-        <p class="text-gray-600 text-sm">${dealer.phone}</p>
-    `;
+    async function submitForm(data) {
+        // Simula una chiamata API
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                console.log('Form submitted:', data);
+                resolve({ success: true });
+            }, 1000);
+        });
+    }
 
-    // Aggiungi evento click per centrare la mappa
-    dealerElement.addEventListener('click', () => {
-        map.setView(dealer.coords, 15);
-        marker.openPopup();
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 2500);
+        }, 100);
+    }
+
+    // ===== Gestione Catalogo =====
+    const infoButtons = document.querySelectorAll('.info-button');
+    infoButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productCard = this.closest('.product-card');
+            const productName = productCard.querySelector('h3').textContent;
+            
+            // Scroll alla sezione contatti
+            document.getElementById('contatti').scrollIntoView({ behavior: 'smooth' });
+            
+            // Pre-compila il messaggio
+            const messageField = document.getElementById('message');
+            if (messageField) {
+                messageField.value = `Vorrei ricevere maggiori informazioni sul modello: ${productName}`;
+            }
+        });
     });
-
-    dealersList.appendChild(dealerElement);
 });
 
-// Funzione per aggiungere nuovi rivenditori
-function addDealer(name, address, phone, lat, lng) {
-    const newDealer = {
-        name: name,
-        address: address,
-        phone: phone,
-        coords: [lat, lng]
-    };
-    
-    dealers.push(newDealer);
-    
-    // Aggiorna mappa e lista
-    const marker = L.marker(newDealer.coords)
-        .addTo(map)
-        .bindPopup(`
-            <strong>${newDealer.name}</strong><br>
-            ${newDealer.address}<br>
-            Tel: ${newDealer.phone}
-        `);
-
-    const dealerElement = document.createElement('div');
-    dealerElement.className = 'p-4 border rounded-lg hover:bg-gray-50 cursor-pointer transition';
-    dealerElement.innerHTML = `
-        <h4 class="font-semibold">${newDealer.name}</h4>
-        <p class="text-gray-600 text-sm">${newDealer.address}</p>
-        <p class="text-gray-600 text-sm">${newDealer.phone}</p>
-    `;
-
-    dealerElement.addEventListener('click', () => {
-        map.setView(newDealer.coords, 15);
-        marker.openPopup();
-    });
-
-    dealersList.appendChild(dealerElement);
-}
-
-function toggleMobileMenu() {
-const mobileMenu = document.getElementById('mobileMenu');
-if (mobileMenu.classList.contains('hidden')) {
-    mobileMenu.classList.remove('hidden');
-    // Agregamos una animación suave
-    mobileMenu.classList.add('animate-fade-in');
-} else {
-    mobileMenu.classList.add('hidden');
-    mobileMenu.classList.remove('animate-fade-in');
-}
-}
-
-// Cerrar el menú móvil cuando se hace click en un enlace
-document.querySelectorAll('#mobileMenu a').forEach(link => {
-link.addEventListener('click', () => {
-    document.getElementById('mobileMenu').classList.add('hidden');
-});
-});
-
+// ===== Lazy Loading per le Immagini =====
 document.addEventListener('DOMContentLoaded', function() {
-    const videoThumbnail = document.getElementById('videoThumbnail');
-    const videoContainer = document.getElementById('videoContainer');
-    const youtubeVideo = document.getElementById('youtubeVideo');
-    const closeVideo = document.getElementById('closeVideo');
-
-    // Video Play Handler
-    videoThumbnail.addEventListener('click', function() {
-        // Sostituisci VIDEO_ID con l'ID del tuo video YouTube
-        youtubeVideo.src = 'https://www.youtube.com/embed/m5YOCaNWADc?si=1DIzSFfeSLhMiaF9&autoplay=0&rel=0&showinfo=0&modestbranding=1';
-        videoContainer.classList.remove('hidden');
-        // Aggiungi animazione fade-in
-        videoContainer.classList.add('animate-fade-in');
+    const lazyImages = document.querySelectorAll('img[data-src]');
+    
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+                observer.unobserve(img);
+            }
+        });
     });
 
-    // Close Video Handler
-    closeVideo.addEventListener('click', function() {
-        youtubeVideo.src = '';
-        videoContainer.classList.add('hidden');
-        videoContainer.classList.remove('animate-fade-in');
-    });
+    lazyImages.forEach(img => imageObserver.observe(img));
 });
 
-// Aggiungi questo alla sezione degli stili
-document.head.insertAdjacentHTML('beforeend', `
-    <style>
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.3s ease-in-out;
-        }
-    </style>
-`);
+// ===== Performance Monitoring =====
+const perfData = {
+    navigationStart: performance.now(),
+    metrics: {}
+};
+
+window.addEventListener('load', () => {
+    perfData.metrics.loadTime = performance.now() - perfData.navigationStart;
+    console.log('Page Load Time:', perfData.metrics.loadTime + 'ms');
+});
